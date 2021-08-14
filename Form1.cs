@@ -108,13 +108,13 @@ namespace T_T_T
             }
         }
 
-        private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        private void ProgressChangedEvent(object sender, ProgressChangedEventArgs e)
         {
             label15.Text = $"Played {e.ProgressPercentage} game.";
             CellField.UpdateControls(e.UserState as FieldChanges);
         }
 
-        private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        private void RunWorkerCompletedEvent(object sender, RunWorkerCompletedEventArgs e)
         {
 
         }
