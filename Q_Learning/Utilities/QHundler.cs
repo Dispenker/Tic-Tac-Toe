@@ -1,28 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using T_T_T.GameManager;
-using T_T_T.GameManager.Utilities;
 using T_T_T.Tools;
 
 namespace T_T_T.Q_Learning.Utilities
 {
     public class QHundler : GameClass
     {
-        private CellField CellField { get; set; }
         public Tic_Tac_Toe Game { get; set; }
         public new GameField GameField { get => Game.GameField; }
         private bool CanMove { get; set; } = false;
         public List<BotPlayer> BotPlayers { get; set; } = new List<BotPlayer>();
         private int TurnBotPlayer { get; set; } = -1;
         public Dictionary<int, List<int>> WinningCells { get; set; } = new Dictionary<int, List<int>>();
-        public QHundler(CellField cellField)
+        public QHundler()
         {
-            this.CellField = cellField;
         }
 
         public override FieldChanges ClickHundler(int cellNumber) 
@@ -61,7 +52,7 @@ namespace T_T_T.Q_Learning.Utilities
                 return true;
             }
 
-            TurnBotPlayer = ++TurnBotPlayer % BotPlayers.Count;
+            ChangePlayersCounter();
             int move = BotPlayers[TurnBotPlayer].GetPlayerMove();
             fieldChanges = new FieldChanges(BotPlayers[TurnBotPlayer].Symbol, move);
 
@@ -98,6 +89,10 @@ namespace T_T_T.Q_Learning.Utilities
         {
             WinningCells = new Dictionary<int, List<int>>();
             Game.ChangeGameField(fieldChanges);
+        }
+        private void ChangePlayersCounter()
+        {
+            TurnBotPlayer = ++TurnBotPlayer % BotPlayers.Count;
         }
     }
 }

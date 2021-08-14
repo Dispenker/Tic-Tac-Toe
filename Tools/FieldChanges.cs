@@ -14,6 +14,7 @@ namespace T_T_T.Tools
         public List<int> ChangesCell { get; set; } = new List<int>();
         public int Cell { get; set; }
         public int CellSleep { get => this.LearningSpeed.ActualSpeed / 2; }
+
         public FieldChanges(PlayerSymbol playerSymbol = PlayerSymbol.Zero, int cell = -1)
         {
             this.Symbol = playerSymbol;

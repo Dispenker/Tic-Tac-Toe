@@ -27,7 +27,7 @@ namespace T_T_T
 
             LearningSpeed = new LearningSpeed(speed_3, speed_4, speed_2, speed_1, speed_0, speed_6, speed_5, speed_7);
 
-            CellField = new CellField(LearningSpeed, PGamingField, PCells, CellCount);
+            CellField = new CellField(LearningSpeed, PGamingField, PCells, CellCount, backgroundWorker);
 
             CellField.FillControls();
             SetInformation();
@@ -51,13 +51,14 @@ namespace T_T_T
             CellField.Game = Tic_Tac_Toe;
 
             Tic_Tac_Toe.StartGame();
+            backgroundWorker.DoWork += ClickCellAsync;
         }
 
         private void StartLearning_Click(object sender, EventArgs e)
         {
             QLearningOne = new QLearning(0.7d, 0.3d, 49);
             QLearningTwo = new QLearning(0.3d, 0.7d, 49);
-            QHundler = new QHundler(CellField);
+            QHundler = new QHundler();
 
             BotPlayer playerOne = new BotPlayer(0, "Pobedonosec", QHundler, QLearningOne);
             BotPlayer playerTwo = new BotPlayer(1, "Looser", QHundler, QLearningTwo);
@@ -68,6 +69,8 @@ namespace T_T_T
             QHundler.BotPlayers.Add(playerOne);
             QHundler.BotPlayers.Add(playerTwo);
 
+            backgroundWorker.DoWork -= ClickCellAsync;
+            backgroundWorker.DoWork += StartLearningAsync;
             backgroundWorker.RunWorkerAsync();
         }
 
@@ -83,23 +86,32 @@ namespace T_T_T
             information.SetToolTip(LOpponentsCells, "Вознаграждение за перекрытие фигур оппоненты");
         }
 
-        private void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        private void ClickCellAsync(object sender, DoWorkEventArgs e)
+        {
+            CellField.ChangeControls(e.Argument as FieldChanges);
+
+            CellField.Game.CanMakeMove = true;
+        }
+
+        private void StartLearningAsync(object sender, DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
+            worker.ReportProgress(1, new FieldChanges() { IsClearingField = true });
 
             QHundler.StartGame();
 
             while (true)
             {
                 var fieldchanges = QHundler.DoTurn();
-                worker.ReportProgress(1, fieldchanges);
+
+                CellField.ChangeControls(fieldchanges);
             }
         }
 
         private void backgroundWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             label15.Text = $"Played {e.ProgressPercentage} game.";
-            CellField.ChangeControls(e.UserState as FieldChanges);
+            CellField.UpdateControls(e.UserState as FieldChanges);
         }
 
         private void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)

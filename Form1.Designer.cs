@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.PSettings = new System.Windows.Forms.Panel();
+            this.BStartLearning = new System.Windows.Forms.Button();
             this.BStartPlay = new System.Windows.Forms.Button();
             this.LCoefficients = new System.Windows.Forms.Label();
             this.PCoefficients = new System.Windows.Forms.Panel();
@@ -94,7 +95,6 @@
             this.LGamingField = new System.Windows.Forms.Label();
             this.backgroundWorker = new System.ComponentModel.BackgroundWorker();
             this.information = new System.Windows.Forms.ToolTip(this.components);
-            this.BStartLearning = new System.Windows.Forms.Button();
             this.PSettings.SuspendLayout();
             this.PCoefficients.SuspendLayout();
             this.PRewards.SuspendLayout();
@@ -120,6 +120,17 @@
             this.PSettings.Name = "PSettings";
             this.PSettings.Size = new System.Drawing.Size(198, 326);
             this.PSettings.TabIndex = 0;
+            // 
+            // BStartLearning
+            // 
+            this.BStartLearning.Location = new System.Drawing.Point(126, 298);
+            this.BStartLearning.Margin = new System.Windows.Forms.Padding(2);
+            this.BStartLearning.Name = "BStartLearning";
+            this.BStartLearning.Size = new System.Drawing.Size(68, 24);
+            this.BStartLearning.TabIndex = 27;
+            this.BStartLearning.Text = "Start learn";
+            this.BStartLearning.UseVisualStyleBackColor = true;
+            this.BStartLearning.Click += new System.EventHandler(this.StartLearning_Click);
             // 
             // BStartPlay
             // 
@@ -816,20 +827,8 @@
             // 
             this.backgroundWorker.WorkerReportsProgress = true;
             this.backgroundWorker.WorkerSupportsCancellation = true;
-            this.backgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker_DoWork);
             this.backgroundWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker_ProgressChanged);
             this.backgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker_RunWorkerCompleted);
-            // 
-            // BStartLearning
-            // 
-            this.BStartLearning.Location = new System.Drawing.Point(126, 298);
-            this.BStartLearning.Margin = new System.Windows.Forms.Padding(2);
-            this.BStartLearning.Name = "BStartLearning";
-            this.BStartLearning.Size = new System.Drawing.Size(68, 24);
-            this.BStartLearning.TabIndex = 27;
-            this.BStartLearning.Text = "Start learn";
-            this.BStartLearning.UseVisualStyleBackColor = true;
-            this.BStartLearning.Click += new System.EventHandler(this.StartLearning_Click);
             // 
             // MainForm
             // 
